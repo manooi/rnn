@@ -19,7 +19,7 @@ class ScatterPlotDataSaver:
         return 'case_' + str(self.num)+ '_scatter_t+' + str(self.hour+1)+ '_RNN' + '_Node_' + str(self.Node)  + '_EPOCHS_' + str(self.EPOCHS)  + '_steps_' + str(self.steps) + '_batch_size_' + str(self.batch_size) + '_buffer_size_' + str(self.buffer_size) + '_learning_rate_' + str(self.add_learning_rate) + '_history_' + str(self.history) + '_future_target_' + str(self.future_target)
 
     def save(self, observe_df, predict_df, rmse_results, nse_results, r):
-        path = "./scatter-plot-data"
+        path = "./result/scatter-plot-data"
         if not os.path.isdir(path):
             os.makedirs(path)
 
