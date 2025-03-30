@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import os
+import pandas as pd
+from dateutil.parser import parse
 
 class Plotter:
     """
@@ -38,6 +40,23 @@ class Plotter:
         plt.savefig(os.path.join(save_path, filename))
         plt.close()
 
+        # Save extracted data as JSON
+        json_data = {
+            "epochs": epochs,
+            "train_loss": loss,
+            "val_loss": val_loss,
+            "history": params["history"],
+            "batch_size": params["batch_size"],
+            "buffer_size": params["buffer_size"],
+            "steps": params["steps"],
+            "learning_rate": params["add_learning_rate"],
+            "node": params["node"],
+        }
+
+        json_filename = filename.replace(".png", ".csv")
+        df = pd.DataFrame(json_data)
+        df.to_csv(os.path.join(save_path, json_filename), index=False)
+
     @staticmethod
     def plot_compare_value(dates, observed, predicted, hour, r_value, rmse_value, nse_value, save_path, params, num):
         """
@@ -68,6 +87,24 @@ class Plotter:
         plt.savefig(os.path.join(save_path, filename))
         plt.close()
 
+         # Save extracted data as JSON
+        json_data = {
+            "dates": [value.isoformat() for key, value in dates.items()],
+            "observed": observed,
+            "predicted": predicted,
+            "hour": hour + 1,
+            "r_value": r_value,
+            "rmse_value": rmse_value,
+            "nse_value": nse_value,
+        }
+
+
+        #iso_dates = [parse(i).isoformat() for i in json_data["dates"].split(" ")]
+
+        json_filename = filename.replace(".png", ".csv")
+        df = pd.DataFrame(json_data)
+        df.to_csv(os.path.join(save_path, json_filename), index=False)
+
     @staticmethod
     def plot_scatter_separate_hours(observed, predicted, hour, r_value, rmse_value, nse_value, save_path, params, num):
         """
@@ -92,3 +129,17 @@ class Plotter:
         filename = f'case_{num}_scatter_t+{hour + 1}_RNN_node_{params["node"]}_epochs_{params["epochs"]}_steps_{params["steps"]}_batch_size_{params["batch_size"]}_buffer_size_{params["buffer_size"]}_learning_rate_{params["add_learning_rate"]}_history_{params["history"]}_future_target_{params["future_target"]}.png'
         plt.savefig(os.path.join(save_path, filename))
         plt.close()
+
+        # Save extracted data as JSON
+        json_data = {
+            "hour": hour + 1,
+            "r_value": r_value,
+            "rmse_value": rmse_value,
+            "nse_value": nse_value,
+            "observed": observed,
+            "predicted": predicted
+        }
+
+        json_filename = filename.replace(".png", ".csv")
+        df = pd.DataFrame(json_data)
+        df.to_csv(os.path.join(save_path, json_filename), index=False)

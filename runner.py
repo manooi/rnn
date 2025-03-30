@@ -4,7 +4,6 @@ import os
 import matplotlib as mpl
 from sklearn.metrics import mean_squared_error
 import tensorflow as tf
-from rnn.save_scatter_plot_data import ScatterPlotDataSaver
 from rnn.data_processor import DataProcessor
 from rnn.util import multivariate_data, nse
 from rnn.plotter import Plotter
@@ -127,8 +126,6 @@ class Runner:
                                             Plotter.plot_compare_value(dates, observed_values, predicted_values, hour, r_values[hour], rmse_value, nse_value, compare_plot_path, params, self.num)
                                             Plotter.plot_scatter_separate_hours(observed_values, predicted_values, hour, r_values[hour], rmse_value, nse_value, scatter_plot_path, params, self.num)
 
-                                            data_saver = ScatterPlotDataSaver(self.num, hour, history, future_target, batch_size, buffer_size, epochs, steps, add_learning_rate, node)
-                                            data_saver.save(observe_df, predict_df, rmse_results, nse_results, r_values)
 
                                         self.results["history"].append(history)
                                         self.results["future_target"].append(future_target)
